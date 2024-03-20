@@ -6,8 +6,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
+
+import com.furiosnerd.entity.Entity;
+import com.furiosnerd.entity.Player;
+import com.furiosnerd.graphics.Spritesheet;
 
 public class Game extends Canvas implements Runnable {
 
@@ -27,11 +33,21 @@ public class Game extends Canvas implements Runnable {
 	
 	private BufferedImage image;
 	
+	public List<Entity> entitys;
+	
+	public Spritesheet spritesheet;
+	
 	public Game() {
 		
 		this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		initFrame();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_BGR);
+		
+		entitys = new ArrayList<Entity>();
+		
+		spritesheet = new Spritesheet("/spritesheet.png");
+		
+		entitys.add(new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16)));
 	}
 
 	private void initFrame() {
@@ -67,6 +83,11 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void spin() {
+		
+		for(int i= 0; i<entitys.size(); i++) {
+			Entity e = entitys.get(i);
+			e.spin();
+		}
 
 	}
 
@@ -79,6 +100,11 @@ public class Game extends Canvas implements Runnable {
 		Graphics graphics = image.getGraphics();
 		graphics.setColor(new Color(0,250,5));
 		graphics.fillRect(0, 0, WIDTH, HEIGHT);
+		
+		for(int i= 0; i<entitys.size(); i++) {
+			Entity e = entitys.get(i);
+			e.render(graphics);
+		}
 		
 		graphics.dispose();
 		graphics = bs.getDrawGraphics();
