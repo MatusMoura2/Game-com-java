@@ -16,8 +16,9 @@ import javax.swing.JFrame;
 import com.furiosnerd.entity.Entity;
 import com.furiosnerd.entity.Player;
 import com.furiosnerd.graphics.Spritesheet;
+import com.furiosnerd.map.Map;
 
-public class Game extends Canvas implements Runnable,KeyListener {
+public class Game extends Canvas implements Runnable, KeyListener {
 
 	/**
 	 * 
@@ -30,31 +31,34 @@ public class Game extends Canvas implements Runnable,KeyListener {
 	private boolean isRunning = true;
 	private final int WIDTH = 200;
 	private final int HEIGHT = 140;
-	private final int SCALE = 5;
-	
-	
+	private final int SCALE = 3;
+
 	private BufferedImage image;
-	
+
 	public List<Entity> entitys;
-	
+
 	public static Spritesheet spritesheet;
-	
+	public static Map map;
+
 	private Player player;
-	
+
 	public Game() {
-		
+
 		addKeyListener(this);
-		
+
 		this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		initFrame();
+		
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_BGR);
-		
+
 		entitys = new ArrayList<Entity>();
-		
+
 		spritesheet = new Spritesheet("/spritesheet.png");
 		
+		map = new Map("/map.png");
+
 		player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
-		
+
 		entitys.add(player);
 	}
 
@@ -91,8 +95,8 @@ public class Game extends Canvas implements Runnable,KeyListener {
 	}
 
 	public void spin() {
-		
-		for(int i= 0; i<entitys.size(); i++) {
+
+		for (int i = 0; i < entitys.size(); i++) {
 			Entity e = entitys.get(i);
 			e.spin();
 		}
@@ -101,22 +105,24 @@ public class Game extends Canvas implements Runnable,KeyListener {
 
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
-		if(bs == null) {
+		if (bs == null) {
 			this.createBufferStrategy(3);
 			return;
 		}
 		Graphics graphics = image.getGraphics();
-		graphics.setColor(new Color(0,250,5));
+		graphics.setColor(new Color(0, 255, 0));
 		graphics.fillRect(0, 0, WIDTH, HEIGHT);
-		
-		for(int i= 0; i<entitys.size(); i++) {
+
+		map.render(graphics);
+
+		for (int i = 0; i < entitys.size(); i++) {
 			Entity e = entitys.get(i);
 			e.render(graphics);
 		}
-		
+
 		graphics.dispose();
 		graphics = bs.getDrawGraphics();
-		graphics.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+		graphics.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
 		bs.show();
 	}
 
@@ -139,7 +145,7 @@ public class Game extends Canvas implements Runnable,KeyListener {
 				frames++;
 				delta--;
 			}
-			
+
 			if (System.currentTimeMillis() - timer >= 1000) {
 				System.out.println("FPS: " + frames);
 				frames = 0;
@@ -147,7 +153,7 @@ public class Game extends Canvas implements Runnable,KeyListener {
 			}
 
 		}
-		
+
 		stop();
 
 	}
@@ -155,47 +161,45 @@ public class Game extends Canvas implements Runnable,KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			player.right = true;
-			
-		}else if(e.getKeyCode() == KeyEvent.VK_LEFT|| e.getKeyCode() == KeyEvent.VK_A) {
+
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
 			player.left = true;
-			
+
 		}
-		if(e.getKeyCode() == KeyEvent.VK_UP|| e.getKeyCode() == KeyEvent.VK_W) {
+		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			player.up = true;
-			
-		}else if(e.getKeyCode() == KeyEvent.VK_DOWN|| e.getKeyCode() == KeyEvent.VK_S) {
+
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			player.down = true;
-			
+
 		}
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			player.right = false;
-			
-		}else if(e.getKeyCode() == KeyEvent.VK_LEFT|| e.getKeyCode() == KeyEvent.VK_A) {
+
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
 			player.left = false;
-			
+
 		}
-		if(e.getKeyCode() == KeyEvent.VK_UP|| e.getKeyCode() == KeyEvent.VK_W) {
+		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			player.up = false;
-			
-		}else if(e.getKeyCode() == KeyEvent.VK_DOWN|| e.getKeyCode() == KeyEvent.VK_S) {
+
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			player.down = false;
-			
+
 		}
-		
+
 	}
 
 }
-
-
