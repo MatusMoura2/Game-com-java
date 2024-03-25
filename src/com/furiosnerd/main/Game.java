@@ -29,18 +29,18 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 	private Thread thread;
 	private boolean isRunning = true;
-	private final int WIDTH = 200;
-	private final int HEIGHT = 140;
-	private final int SCALE = 3;
+	private final int WIDTH = 360;
+	private final int HEIGHT = 240;
+	private final int SCALE = 2;
 
 	private BufferedImage image;
 
-	public List<Entity> entitys;
+	public static List<Entity> entitys;
 
 	public static Spritesheet spritesheet;
 	public static Map map;
 
-	private Player player;
+	public static Player player;
 
 	public Game() {
 
@@ -55,11 +55,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 		spritesheet = new Spritesheet("/spritesheet.png");
 		
+		player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
+		
+		entitys.add(player);
+		
 		map = new Map("/map.png");
 
-		player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
-
-		entitys.add(player);
 	}
 
 	private void initFrame() {
