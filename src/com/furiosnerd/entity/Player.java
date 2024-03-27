@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import com.furiosnerd.main.Game;
 import com.furiosnerd.map.Camera;
+import com.furiosnerd.map.Map;
 
 public class Player extends Entity {
 
@@ -62,8 +63,8 @@ public class Player extends Entity {
 				}
 			}
 
-			Camera.x = this.getX() - (Game.WIDTH / 2);
-			Camera.y = this.getY() - (Game.HEIGHT / 2);
+			Camera.x = Camera.clamp(this.getX() - (Game.WIDTH / 2), 0, Map.WIDTH * 16 - Game.WIDTH);
+			Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT / 2), 0, Map.HEIGHT * 16 - Game.HEIGHT);
 		}
 	}
 
