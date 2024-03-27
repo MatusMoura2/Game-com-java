@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.furiosnerd.main.Game;
+import com.furiosnerd.map.Camera;
 
 public class Entity {
 
@@ -29,19 +30,13 @@ public class Entity {
 
 	}
 
-	
-	
 	public void setX(double x) {
 		this.x = x;
 	}
 
-
-
 	public void setY(double y) {
 		this.y = y;
 	}
-
-
 
 	public int getX() {
 		return (int) x;
@@ -64,7 +59,7 @@ public class Entity {
 	}
 
 	public void render(Graphics graphics) {
-		graphics.drawImage(sprite, this.getX(), this.getY(), null);
+		graphics.drawImage(sprite, this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}
 
 }

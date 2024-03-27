@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.furiosnerd.main.Game;
+import com.furiosnerd.map.Camera;
 
 public class Player extends Entity {
 
@@ -51,24 +52,27 @@ public class Player extends Entity {
 			moved = true;
 			y += speed;
 		}
-		if(moved) {
-			frames ++;
-			if(frames == maxFrames) {
+		if (moved) {
+			frames++;
+			if (frames == maxFrames) {
 				frames = 0;
 				index++;
-				if(index > maxIndex) {
+				if (index > maxIndex) {
 					index = 0;
 				}
 			}
+
+			Camera.x = this.getX() - (Game.WIDTH / 2);
+			Camera.y = this.getY() - (Game.HEIGHT / 2);
 		}
 	}
 
 	public void render(Graphics graphics) {
 		if (dir == rightDir) {
-			graphics.drawImage(rightPlayer[index], this.getX(), this.getY(), null);
+			graphics.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
 		} else if (dir == leftDir) {
-			graphics.drawImage(leftPlayer[index], this.getX(), this.getY(), null);
+			graphics.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
 		} else {
 
