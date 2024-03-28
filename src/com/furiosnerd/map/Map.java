@@ -15,9 +15,10 @@ import com.furiosnerd.main.Game;
 
 public class Map {
 
-	private Tile[] tiles;
+	public static Tile[] tiles;
 
 	public static int WIDTH, HEIGHT;
+	public static final int TILE_SIZE = 16;
 
 	public Map(String path) {
 		try {
@@ -38,7 +39,7 @@ public class Map {
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 16, y * 16, Tile.TILE_FLOOR);
 
 					} else if (pixelHere == 0xFFFFFFFF) {
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 16, y * 16, Tile.TILE_WALL);
+						tiles[x + (y * WIDTH)] = new WallTile(x * 16, y * 16, Tile.TILE_WALL);
 
 					} else if (pixelHere == 0xFF0026FF) {// Player
 
@@ -70,6 +71,25 @@ public class Map {
 		}
 	}
 
+	public static boolean isFree(int xNext, int yNext) {
+		int x1 = xNext / TILE_SIZE;
+		int y1 = yNext / TILE_SIZE;
+
+		int x2 = (xNext + TILE_SIZE - 1) / TILE_SIZE;
+		int y2 = yNext / TILE_SIZE;
+
+		int x3 = xNext / TILE_SIZE;
+		int y3 = (yNext + TILE_SIZE - 1) / TILE_SIZE;
+
+		int x4 = (xNext + TILE_SIZE - 1) / TILE_SIZE;
+		int y4 = (yNext + TILE_SIZE - 1) / TILE_SIZE;
+
+		return !((tiles[x1 + (y1 * Map.WIDTH)] instanceof WallTile )
+				|| (tiles[x2 + (y2 * Map.WIDTH)] instanceof WallTile)
+				|| (tiles[x3 + (y3 * Map.WIDTH)] instanceof WallTile)
+				|| (tiles[x4 + (y4 * Map.WIDTH)] instanceof WallTile));
+	}
+
 	public void render(Graphics g) {
 
 		int camPositionX = Camera.x >> 4;
@@ -80,7 +100,7 @@ public class Map {
 
 		for (int x = camPositionX; x <= camPositionFinalX; x++) {
 			for (int y = camPositionY; y <= camPositionFinalY; y++) {
-				if(x < 0|| y<0||x>= WIDTH || y>= HEIGHT)
+				if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
 					continue;
 				Tile tile = tiles[x + (y * WIDTH)];
 				tile.render(g);

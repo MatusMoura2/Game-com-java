@@ -37,19 +37,19 @@ public class Player extends Entity {
 
 	public void spin() {
 		moved = false;
-		if (right) {
+		if (right && Map.isFree((int) (x+speed), this.getY())) {
 			moved = true;
 			dir = rightDir;
 			x += speed;
-		} else if (left) {
+		} else if (left && Map.isFree((int)(x-(speed)), this.getY())) {
 			moved = true;
 			dir = leftDir;
 			x -= speed;
 		}
-		if (up) {
+		if (up && Map.isFree(this.getX(), (int)(y- speed))) {
 			moved = true;
 			y -= speed;
-		} else if (down) {
+		} else if (down && Map.isFree(this.getX(), (int)(y+ speed))) {
 			moved = true;
 			y += speed;
 		}
