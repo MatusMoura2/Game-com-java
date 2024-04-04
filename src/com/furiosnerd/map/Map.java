@@ -47,8 +47,9 @@ public class Map {
 						Game.player.setY(y * 16);
 
 					} else if (pixelHere == 0xFFFF0000) {// Enemy
-
-						Game.entitys.add(new Enemy(x * 16, y * 16, 16, 16, Entity.ENEMY_EN));
+						Enemy en = new Enemy(x * 16, y * 16, 16, 16, Entity.ENEMY_EN);
+						Game.entitys.add(en);
+						Game.enemys.add(en);
 
 					} else if (pixelHere == 0xFFFF00DC) {// Weapon
 

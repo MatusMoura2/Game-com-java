@@ -10,9 +10,11 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.furiosnerd.entity.Enemy;
 import com.furiosnerd.entity.Entity;
 import com.furiosnerd.entity.Player;
 import com.furiosnerd.graphics.Spritesheet;
@@ -36,29 +38,35 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	private BufferedImage image;
 
 	public static List<Entity> entitys;
+	public static List<Enemy> enemys;
 
 	public static Spritesheet spritesheet;
 	public static Map map;
 
 	public static Player player;
 
+	public static Random ran;
+
 	public Game() {
+
+		ran = new Random();
 
 		addKeyListener(this);
 
 		this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		initFrame();
-		
+
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_BGR);
 
 		entitys = new ArrayList<Entity>();
+		enemys = new ArrayList<Enemy>();
 
 		spritesheet = new Spritesheet("/spritesheet.png");
-		
+
 		player = new Player(0, 0, 16, 16, spritesheet.getSprite(32, 0, 16, 16));
-		
+
 		entitys.add(player);
-		
+
 		map = new Map("/map.png");
 
 	}
@@ -97,12 +105,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 	public void spin() {
 
-		for (int i = 0; i < entitys.size(); i++) {
-			Entity e = entitys.get(i);
-			e.spin();
-		}
+		//if (Game.ran.nextInt(100) < 50) {
 
-	}
+			for (int i = 0; i < entitys.size(); i++) {
+				Entity e = entitys.get(i);
+				e.spin();
+			}
+
+		}
+	//}
 
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
