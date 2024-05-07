@@ -25,22 +25,32 @@ public class Enemy extends Entity {
 	}
 
 	public void spin() {
-		if ((int) x < Game.player.getX() && Map.isFree((int) (x + speed), this.getY())
-				&& !isColliding((int) (x + speed), this.getY())) {
-			x += speed;
-		} else if ((int) x > Game.player.getX() && Map.isFree((int) (x - speed), this.getY())
-				&& !isColliding((int) (x - speed), this.getY())) {
-			x -= speed;
-		}
+		if (isCollidingWithPlay() == false) {
+			if ((int) x < Game.player.getX() && Map.isFree((int) (x + speed), this.getY())
+					&& !isColliding((int) (x + speed), this.getY())) {
+				x += speed;
+			} else if ((int) x > Game.player.getX() && Map.isFree((int) (x - speed), this.getY())
+					&& !isColliding((int) (x - speed), this.getY())) {
+				x -= speed;
+			}
 
-		if ((int) y < Game.player.getY() && Map.isFree(this.getX(), (int) (y + speed))
-				&& !isColliding(this.getX(), (int) (y + speed))) {
-			y += speed;
-		} else if ((int) y > Game.player.getY() && Map.isFree(this.getX(), (int) (y - speed))
-				&& !isColliding(this.getX(), (int) (y - speed))) {
-			y -= speed;
+			if ((int) y < Game.player.getY() && Map.isFree(this.getX(), (int) (y + speed))
+					&& !isColliding(this.getX(), (int) (y + speed))) {
+				y += speed;
+			} else if ((int) y > Game.player.getY() && Map.isFree(this.getX(), (int) (y - speed))
+					&& !isColliding(this.getX(), (int) (y - speed))) {
+				y -= speed;
+			}
+		} else {
+			if (Game.ran.nextInt(100) < 10) {
+				Game.player.life--;
+				System.out.println(Game.player.life);
+				if (Game.player.life == 0) {
+					System.exit(1);
+					
+				}
+			}
 		}
-
 		frames++;
 		if (frames == maxFrames) {
 			frames = 0;
@@ -49,6 +59,13 @@ public class Enemy extends Entity {
 				index = 0;
 			}
 		}
+	}
+
+	public boolean isCollidingWithPlay() {
+		Rectangle enemyRect = new Rectangle(this.getX() + maskx, this.getY() + masky, maskw, maskh);
+		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 16, 16);
+
+		return enemyRect.intersects(player);
 	}
 
 	public boolean isColliding(int xnext, int ynext) {

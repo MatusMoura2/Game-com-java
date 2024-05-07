@@ -11,6 +11,8 @@ public class Player extends Entity {
 
 	public int rightDir = 0, leftDir = 1;
 	public int dir = rightDir;
+	
+	public int life = 100;
 
 	public boolean right, up, left, down;
 	public double speed = 1.2;
