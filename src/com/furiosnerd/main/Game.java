@@ -18,6 +18,7 @@ import com.furiosnerd.entity.Enemy;
 import com.furiosnerd.entity.Entity;
 import com.furiosnerd.entity.Player;
 import com.furiosnerd.graphics.Spritesheet;
+import com.furiosnerd.graphics.UI;
 import com.furiosnerd.map.Map;
 
 public class Game extends Canvas implements Runnable, KeyListener {
@@ -46,6 +47,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	public static Player player;
 
 	public static Random ran;
+	
+	public UI ui;
 
 	public Game() {
 
@@ -55,6 +58,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 		this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 		initFrame();
+		
+		ui = new UI();
 
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_BGR);
 
@@ -131,6 +136,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 			Entity e = entitys.get(i);
 			e.render(graphics);
 		}
+		
+		ui.render(graphics);
 
 		graphics.dispose();
 		graphics = bs.getDrawGraphics();
