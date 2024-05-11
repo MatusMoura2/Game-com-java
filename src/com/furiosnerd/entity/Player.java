@@ -11,8 +11,8 @@ public class Player extends Entity {
 
 	public int rightDir = 0, leftDir = 1;
 	public int dir = rightDir;
-	
-	public static double life = 100,maxLife = 100;
+
+	public static double life = 100, maxLife = 100;
 
 	public boolean right, up, left, down;
 	public double speed = 1.2;
@@ -39,19 +39,19 @@ public class Player extends Entity {
 
 	public void spin() {
 		moved = false;
-		if (right && Map.isFree((int) (x+speed), this.getY())) {
+		if (right && Map.isFree((int) (x + speed), this.getY())) {
 			moved = true;
 			dir = rightDir;
 			x += speed;
-		} else if (left && Map.isFree((int)(x-(speed)), this.getY())) {
+		} else if (left && Map.isFree((int) (x - (speed)), this.getY())) {
 			moved = true;
 			dir = leftDir;
 			x -= speed;
 		}
-		if (up && Map.isFree(this.getX(), (int)(y- speed))) {
+		if (up && Map.isFree(this.getX(), (int) (y - speed))) {
 			moved = true;
 			y -= speed;
-		} else if (down && Map.isFree(this.getX(), (int)(y+ speed))) {
+		} else if (down && Map.isFree(this.getX(), (int) (y + speed))) {
 			moved = true;
 			y += speed;
 		}
@@ -65,8 +65,25 @@ public class Player extends Entity {
 				}
 			}
 
+			this.checkCollisionLifePack();
+
 			Camera.x = Camera.clamp(this.getX() - (Game.WIDTH / 2), 0, Map.WIDTH * 16 - Game.WIDTH);
 			Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT / 2), 0, Map.HEIGHT * 16 - Game.HEIGHT);
+		}
+	}
+
+	public void checkCollisionLifePack() {
+		for (int i = 0; i < Game.entitys.size(); i++) {
+			Entity current = Game.entitys.get(i);
+			if (current instanceof LifePack) {
+				if (Entity.isColidding(this, current)) {
+					life += 15;
+					if(life > 100) {
+						life = 100;
+					}
+					Game.entitys.remove(current);
+				}
+			}
 		}
 	}
 

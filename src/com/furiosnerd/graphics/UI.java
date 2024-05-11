@@ -12,5 +12,6 @@ public class UI {
 		graphics.fillRect(3, 4,50, 7);
 		graphics.setColor(Color.red);
 		graphics.fillRect(3, 4, (int)((Player.life/Player.maxLife)*50), 7);
+		
 	}
 }
