@@ -20,6 +20,8 @@ public class Player extends Entity {
 	private int frames = 0, maxFrames = 5, index = 0, maxIndex = 3;
 	private boolean moved = false;
 
+	public static int ammunition = 0;
+	
 	private BufferedImage[] rightPlayer;
 	private BufferedImage[] leftPlayer;
 
@@ -66,9 +68,21 @@ public class Player extends Entity {
 			}
 
 			this.checkCollisionLifePack();
+			this.ammunitionCollision();
 
 			Camera.x = Camera.clamp(this.getX() - (Game.WIDTH / 2), 0, Map.WIDTH * 16 - Game.WIDTH);
 			Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT / 2), 0, Map.HEIGHT * 16 - Game.HEIGHT);
+		}
+	}
+	public void ammunitionCollision() {
+		for(int i = 0; i< Game.entitys.size(); i++) {
+			Entity current = Game.entitys.get(i);
+			if(current instanceof Bullet) {
+				if(Entity.isColidding(this, current)) {
+					ammunition++;
+					Game.entitys.remove(current);
+				}
+			}
 		}
 	}
 

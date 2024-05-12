@@ -3,6 +3,7 @@ package com.furiosnerd.main;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -142,6 +143,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		graphics.dispose();
 		graphics = bs.getDrawGraphics();
 		graphics.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+		
+		
+		graphics.setFont(new Font("arial",Font.BOLD,25));
+		graphics.setColor(Color.LIGHT_GRAY);
+		graphics.drawString("Munião: " + Player.ammunition,600,30);
 		bs.show();
 	}
 
