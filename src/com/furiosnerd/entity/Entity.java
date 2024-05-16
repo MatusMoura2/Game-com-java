@@ -13,7 +13,9 @@ public class Entity {
 	public static BufferedImage WEAPON_EN = Game.spritesheet.getSprite(16, 16, 16, 16);
 	public static BufferedImage BULLET_EN = Game.spritesheet.getSprite(96, 0, 16, 16);
 	public static BufferedImage ENEMY_EN = Game.spritesheet.getSprite(112, 0, 16, 16);
-
+	public static BufferedImage GUN_RIGHT = Game.spritesheet.getSprite(32, 32, 16, 16);
+	public static BufferedImage GUN_LEFT = Game.spritesheet.getSprite(48, 32, 16, 16);
+	
 	private int maskX, maskY, maskW, maskH;
 
 	protected double x;

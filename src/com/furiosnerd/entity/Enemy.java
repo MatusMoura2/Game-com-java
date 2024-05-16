@@ -46,10 +46,10 @@ public class Enemy extends Entity {
 				Game.player.life--;
 				System.out.println(Game.player.life);
 				Game.player.isDamaged = true;
-				if (Game.player.life == 0) {
+				/*if (Game.player.life == 0) {
 					System.exit(1);
 					
-				}
+				}*/
 			}
 		}
 		frames++;
