@@ -15,6 +15,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.furiosnerd.entity.BulletShoot;
 import com.furiosnerd.entity.Enemy;
 import com.furiosnerd.entity.Entity;
 import com.furiosnerd.entity.Player;
@@ -41,6 +42,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 	public static List<Entity> entitys;
 	public static List<Enemy> enemys;
+	public static List<BulletShoot> bulletShoots;
 
 	public static Spritesheet spritesheet;
 	public static Map map;
@@ -66,6 +68,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 		entitys = new ArrayList<Entity>();
 		enemys = new ArrayList<Enemy>();
+		bulletShoots = new ArrayList<BulletShoot>();
 
 		spritesheet = new Spritesheet("/spritesheet.png");
 
@@ -110,16 +113,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	}
 
 	public void spin() {
-
-		//if (Game.ran.nextInt(100) < 50) {
-
 			for (int i = 0; i < entitys.size(); i++) {
 				Entity e = entitys.get(i);
 				e.spin();
 			}
 
+			for(int i = 0; i < bulletShoots.size(); i++) {
+				bulletShoots.get(i).tick();
+			}
 		}
-	//}
 
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
@@ -136,6 +138,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		for (int i = 0; i < entitys.size(); i++) {
 			Entity e = entitys.get(i);
 			e.render(graphics);
+		}
+		
+		for(int i = 0; i < bulletShoots.size(); i++) {
+			bulletShoots.get(i).render(graphics);
 		}
 		
 		ui.render(graphics);
@@ -205,6 +211,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			player.down = true;
 
+		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			player.shoot = true;
 		}
 
 	}
