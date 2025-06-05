@@ -13,6 +13,7 @@ public class Enemy extends Entity {
 	private double speed = 0.5;
 	private int maskx = 8, masky = 8, maskw = 6, maskh = 6;
 	private int frames = 0, maxFrames = 20, index = 0, maxIndex = 2;
+	private int life = 3;
 
 	private BufferedImage[] spritesEnemy;
 
@@ -46,10 +47,11 @@ public class Enemy extends Entity {
 				Game.player.life--;
 				System.out.println(Game.player.life);
 				Game.player.isDamaged = true;
-				/*if (Game.player.life == 0) {
-					System.exit(1);
-					
-				}*/
+				/*
+				 * if (Game.player.life == 0) { System.exit(1);
+				 * 
+				 * }
+				 */
 			}
 		}
 		frames++;
@@ -58,6 +60,30 @@ public class Enemy extends Entity {
 			index++;
 			if (index > maxIndex) {
 				index = 0;
+			}
+		}
+		collidingBullet();
+
+		if (life <= 0) {
+			destroySelf();
+			return;
+		}
+	}
+
+	private void destroySelf() {
+		Game.entitys.remove(this);
+
+	}
+
+	public void collidingBullet() {
+		for (int i = 0; i < Game.bulletShoots.size(); i++) {
+			Entity entity = Game.bulletShoots.get(i);
+			if (entity instanceof BulletShoot) {
+				if (isColidding(this, entity)) {
+					Game.bulletShoots.remove(i);
+					life--;
+					return;
+				}
 			}
 		}
 	}

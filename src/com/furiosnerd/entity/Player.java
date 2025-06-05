@@ -91,20 +91,23 @@ public class Player extends Entity {
 				}
 			}
 
-			if (shoot && hasGun) {// criar bala e atirar
+			if (shoot) {// criar bala e atirar
 				shoot = false;
-				int dX = 0;
-				int pX = 0;
-				int pY = 4;
-				if (dir == rightDir) {
-					pX = 21;
-					dX = 1;
-				} else {
-					pX = -8;
-					dX = -1;
+				if (hasGun && ammunition > 0) {
+					ammunition--;
+					int dX = 0;
+					int pX = 0;
+					int pY = 4;
+					if (dir == rightDir) {
+						pX = 21;
+						dX = 1;
+					} else {
+						pX = -8;
+						dX = -1;
+					}
+					BulletShoot bulletShoot = new BulletShoot(this.getX() + pX, this.getY() + pY, 2, 2, null, dX, 0);
+					Game.bulletShoots.add(bulletShoot);
 				}
-				BulletShoot bulletShoot = new BulletShoot(this.getX() + pX, this.getY() + pY, 2, 2, null, dX, 0);
-				Game.bulletShoots.add(bulletShoot);
 			}
 			if (life <= 0) {
 				Game.entitys = new ArrayList<Entity>();
@@ -145,7 +148,7 @@ public class Player extends Entity {
 			Entity current = Game.entitys.get(i);
 			if (current instanceof Bullet) {
 				if (Entity.isColidding(this, current)) {
-					ammunition++;
+					ammunition+=100;
 					Game.entitys.remove(current);
 				}
 			}
